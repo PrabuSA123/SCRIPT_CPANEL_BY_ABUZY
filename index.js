@@ -1,9 +1,19 @@
-/* SC CPANEL BY ABUZY
-   Telegram : t.me/abuzycreative
-   jANGAN DI HAPUS CREADIT NYA WOI!!
-   JANGAN DI JUAL SCRIPT INI WOI!!
+/*
+⚠️ PERINGATAN:
+Script ini **TIDAK BOLEH DIPERJUALBELIKAN** dalam bentuk apa pun!
 
-   SC BUG? CHAT TELEGRAM SAYA
+╔══════════════════════════════════════════════╗
+║               🛠️ INFORMASI SCRIPT            ║
+╠══════════════════════════════════════════════╣
+║ 📦 Version   : 1.0
+║ 👨‍💻 Developer : AbuZy Creative               ║
+║ 🌐 Website   :t.me/abuzycreative            ║
+║ 💻 GitHub    : github.com/PrabuSA123/       ║
+╚══════════════════════════════════════════════╝
+
+📌 Mulai 3 Januari 2026,
+Script **CPANEL BY ABUZY** resmi menjadi **Open Source** dan dapat digunakan secara gratis:
+🔗 t.me/abuzycreative
 */
 
 const TelegramBot = require('node-telegram-bot-api');
@@ -3836,4 +3846,5 @@ Dibuat oleh: ${msg.from.first_name || msg.from.username}
 });
 
 //▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰//
+
 //          CLOSE CREATE PANEL         //// 
