@@ -104,6 +104,158 @@ bot.onText(/\/start/, (msg) => {
 });
 
 
+// ====================
+// COMMAND: /addprem
+// ====================
+bot.onText(/^\/addprem(?:\s+(.+))?$/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const userId = msg.from.id;
+
+    if (userId.toString() !== owner) {
+        return bot.sendMessage(chatId, '❌ Only owner can perform this action.');
+    }
+
+    const targetUserId = match[1];
+    if (!targetUserId) {
+        return bot.sendMessage(chatId, 
+            `❌ Format salah!\n\n` +
+            `📝 Contoh:\n` +
+            `/addprem idtelegram`
+        );
+    }
+
+    if (!fs.existsSync(premiumUsersFile)) {
+        fs.writeFileSync(premiumUsersFile, JSON.stringify([]));
+    }
+
+    const premiumUsers = JSON.parse(fs.readFileSync(premiumUsersFile));
+
+    if (premiumUsers.includes(targetUserId)) {
+        return bot.sendMessage(chatId, `⚠️ User ${targetUserId} sudah premium!`);
+    }
+
+    premiumUsers.push(targetUserId);
+    fs.writeFileSync(premiumUsersFile, JSON.stringify(premiumUsers, null, 2));
+    
+    bot.sendMessage(chatId, `✅ User ${targetUserId} berhasil ditambahkan ke premium users!`);
+});
+
+// ====================
+// COMMAND: /delprem
+// ====================
+bot.onText(/^\/delprem(?:\s+(.+))?$/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const userId = msg.from.id;
+
+    if (userId.toString() !== owner) {
+        return bot.sendMessage(chatId, '❌ Only owner can perform this action.');
+    }
+
+    const targetUserId = match[1];
+    if (!targetUserId) {
+        return bot.sendMessage(chatId, 
+            `❌ Format salah!\n\n` +
+            `📝 Contoh:\n` +
+            `/delprem idtelegram`
+        );
+    }
+
+    if (!fs.existsSync(premiumUsersFile)) {
+        fs.writeFileSync(premiumUsersFile, JSON.stringify([]));
+    }
+
+    let premiumUsers = JSON.parse(fs.readFileSync(premiumUsersFile));
+
+    if (!premiumUsers.includes(targetUserId)) {
+        return bot.sendMessage(chatId, `⚠️ User ${targetUserId} tidak ada di premium users!`);
+    }
+
+    premiumUsers = premiumUsers.filter(id => id !== targetUserId);
+    fs.writeFileSync(premiumUsersFile, JSON.stringify(premiumUsers, null, 2));
+    
+    bot.sendMessage(chatId, `✅ User ${targetUserId} berhasil dihapus dari premium users!`);
+});
+
+// ====================
+// COMMAND: /addowner
+// ====================
+bot.onText(/^\/addowner(?:\s+(.+))?$/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const userId = msg.from.id;
+
+    if (!isOwner(userId)) {
+        return bot.sendMessage(chatId, '❌ Only owner can perform this action.');
+    }
+
+    const targetUserId = match[1];
+    if (!targetUserId) {
+        return bot.sendMessage(chatId, 
+            `❌ Format salah!\n\n` +
+            `📝 Contoh:\n` +
+            `/addowner 123456789`
+        );
+    }
+
+    if (!fs.existsSync(ownerfile)) {
+        fs.writeFileSync(ownerfile, JSON.stringify([owner]));
+    }
+
+    const owners = JSON.parse(fs.readFileSync(ownerfile));
+
+    if (owners.includes(targetUserId)) {
+        return bot.sendMessage(chatId, `⚠️ User ${targetUserId} sudah owner!`);
+    }
+
+    owners.push(targetUserId);
+    fs.writeFileSync(ownerfile, JSON.stringify(owners, null, 2));
+    
+    bot.sendMessage(chatId, `✅ User ${targetUserId} berhasil ditambahkan ke owner!`);
+});
+
+// ====================
+// COMMAND: /delowner
+// ====================
+bot.onText(/^\/delowner(?:\s+(.+))?$/, (msg, match) => {
+    const chatId = msg.chat.id;
+    const userId = msg.from.id;
+
+    if (!isOwner(userId)) {
+        return bot.sendMessage(chatId, '❌ Only owner can perform this action.');
+    }
+
+    const targetUserId = match[1];
+    if (!targetUserId) {
+        return bot.sendMessage(chatId, 
+            `❌ Format salah!\n\n` +
+            `📝 Contoh:\n` +
+            `/delowner 123456789`
+        );
+    }
+
+    if (targetUserId === owner) {
+        return bot.sendMessage(chatId, '❌ Tidak bisa hapus main owner dari settings!');
+    }
+
+    if (!fs.existsSync(ownerfile)) {
+        fs.writeFileSync(ownerfile, JSON.stringify([owner]));
+    }
+
+    let owners = JSON.parse(fs.readFileSync(ownerfile));
+
+    if (!owners.includes(targetUserId)) {
+        return bot.sendMessage(chatId, `⚠️ User ${targetUserId} bukan owner!`);
+    }
+
+    if (owners.length === 1) {
+        return bot.sendMessage(chatId, '❌ Tidak bisa hapus owner terakhir!');
+    }
+
+    owners = owners.filter(id => id !== targetUserId);
+    fs.writeFileSync(ownerfile, JSON.stringify(owners, null, 2));
+    
+    bot.sendMessage(chatId, `✅ User ${targetUserId} berhasil dihapus dari owner!`);
+});
+
 //▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰//
 //          OWNERMENU          //
 bot.onText(/\/ownermenu/, (msg) => {
