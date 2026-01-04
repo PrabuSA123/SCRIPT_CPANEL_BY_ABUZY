@@ -3,7 +3,7 @@
 ║ ⚠️  PERINGATAN PENTING                       ║
 ║ ❌ Script ini TIDAK BOLEH DIPERJUALBELIKAN!  ║
 ╠══════════════════════════════════════════════╣
-║ 🛠️ Version   : 1.0                           ║
+║ 🛠️ Version   : 1.1                           ║
 ║ 👨‍💻 Developer : AbuZy Creative                ║
 ║ 🌐 Website   : t.me/abuzycreative            ║
 ║ 💻 GitHub    : github.com/PrabuSA123/        ║
@@ -501,8 +501,37 @@ bot.onText(/\/listmember/, async (msg) => {
 });
 
 
+//▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰//
+// PING BOT //
+bot.onText(/\/ping/, async (msg) => {
+    const chatId = msg.chat.id;
 
+    const start = Date.now();
+    const sent = await bot.sendMessage(chatId, '🏓 Pong...');
+    const delay = Date.now() - start;
 
+    let status;
+    if (delay < 100) {
+        status = '🚀 Lancar';
+    } else if (delay < 300) {
+        status = '✅ Normal';
+    } else {
+        status = '⚠️ Lag';
+    }
+
+    const text = `
+🏓 <b>PONG</b>
+
+⏱ Delay : <code>${delay} ms</code>
+📊 Status: ${status}
+`;
+
+    bot.editMessageText(text, {
+        chat_id: chatId,
+        message_id: sent.message_id,
+        parse_mode: 'HTML'
+    });
+});
 
 //▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰//
 // CEK ID //
@@ -3846,4 +3875,5 @@ Dibuat oleh: ${msg.from.first_name || msg.from.username}
 //▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰//
 
 //          CLOSE CREATE PANEL         //// 
+
 
