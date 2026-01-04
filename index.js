@@ -3,7 +3,7 @@
 ║ ⚠️  PERINGATAN PENTING                       ║
 ║ ❌ Script ini TIDAK BOLEH DIPERJUALBELIKAN!  ║
 ╠══════════════════════════════════════════════╣
-║ 🛠️ Version   : 1.1                           ║
+║ 🛠️ Version   : 1.5                           ║
 ║ 👨‍💻 Developer : AbuZy Creative                ║
 ║ 🌐 Website   : t.me/abuzycreative            ║
 ║ 💻 GitHub    : github.com/PrabuSA123/        ║
@@ -85,7 +85,9 @@ bot.onText(/\/start/, (msg) => {
 ┗━━━━━━━━━━━━━━━━━━━┛
 `;
 
-    const keyboard = {
+    bot.sendPhoto(chatId, settings.pp, { 
+        caption: text11,
+        parse_mode: 'HTML',
         reply_markup: {
             inline_keyboard: [
                 [
@@ -94,12 +96,6 @@ bot.onText(/\/start/, (msg) => {
                 ]
             ]
         }
-    };
-
-    bot.sendPhoto(chatId, settings.pp, { 
-        caption: text11,
-        parse_mode: 'HTML',
-        reply_markup: keyboard
     });
 });
 
@@ -177,6 +173,27 @@ bot.onText(/^\/delprem(?:\s+(.+))?$/, (msg, match) => {
 });
 
 // ====================
+// HELPER FUNCTIONS
+// ====================
+function isOwner(userId) {
+    if (!fs.existsSync(adminfile)) {
+        // Kalau file belum ada, bikin baru dengan main owner
+        fs.writeFileSync(adminfile, JSON.stringify([owner]));
+    }
+    
+    let data = JSON.parse(fs.readFileSync(adminfile));
+    
+    // Cek apakah format lama (array) atau baru (object)
+    if (Array.isArray(data)) {
+        // Format lama: ["123", "456"]
+        return data.includes(String(userId));
+    } else {
+        // Format baru: {owners: ["123"], admins: ["456"]}
+        return data.owners && data.owners.includes(String(userId));
+    }
+}
+
+// ====================
 // COMMAND: /addowner
 // ====================
 bot.onText(/^\/addowner(?:\s+(.+))?$/, (msg, match) => {
@@ -196,19 +213,29 @@ bot.onText(/^\/addowner(?:\s+(.+))?$/, (msg, match) => {
         );
     }
 
-    if (!fs.existsSync(ownerfile)) {
-        fs.writeFileSync(ownerfile, JSON.stringify([owner]));
+    if (!fs.existsSync(adminfile)) {
+        fs.writeFileSync(adminfile, JSON.stringify([owner]));
     }
 
-    const owners = JSON.parse(fs.readFileSync(ownerfile));
-
-    if (owners.includes(targetUserId)) {
-        return bot.sendMessage(chatId, `⚠️ User ${targetUserId} sudah owner!`);
-    }
-
-    owners.push(targetUserId);
-    fs.writeFileSync(ownerfile, JSON.stringify(owners, null, 2));
+    let data = JSON.parse(fs.readFileSync(adminfile));
     
+    // Cek format file
+    if (Array.isArray(data)) {
+        // Format lama (array)
+        if (data.includes(targetUserId)) {
+            return bot.sendMessage(chatId, `⚠️ User ${targetUserId} sudah owner!`);
+        }
+        data.push(targetUserId);
+    } else {
+        // Format baru (object)
+        if (!data.owners) data.owners = [];
+        if (data.owners.includes(targetUserId)) {
+            return bot.sendMessage(chatId, `⚠️ User ${targetUserId} sudah owner!`);
+        }
+        data.owners.push(targetUserId);
+    }
+    
+    fs.writeFileSync(adminfile, JSON.stringify(data, null, 2));
     bot.sendMessage(chatId, `✅ User ${targetUserId} berhasil ditambahkan ke owner!`);
 });
 
@@ -236,25 +263,38 @@ bot.onText(/^\/delowner(?:\s+(.+))?$/, (msg, match) => {
         return bot.sendMessage(chatId, '❌ Tidak bisa hapus main owner dari settings!');
     }
 
-    if (!fs.existsSync(ownerfile)) {
-        fs.writeFileSync(ownerfile, JSON.stringify([owner]));
+    if (!fs.existsSync(adminfile)) {
+        fs.writeFileSync(adminfile, JSON.stringify([owner]));
     }
 
-    let owners = JSON.parse(fs.readFileSync(ownerfile));
-
-    if (!owners.includes(targetUserId)) {
-        return bot.sendMessage(chatId, `⚠️ User ${targetUserId} bukan owner!`);
-    }
-
-    if (owners.length === 1) {
-        return bot.sendMessage(chatId, '❌ Tidak bisa hapus owner terakhir!');
-    }
-
-    owners = owners.filter(id => id !== targetUserId);
-    fs.writeFileSync(ownerfile, JSON.stringify(owners, null, 2));
+    let data = JSON.parse(fs.readFileSync(adminfile));
     
+    // Cek format file
+    if (Array.isArray(data)) {
+        // Format lama (array)
+        if (!data.includes(targetUserId)) {
+            return bot.sendMessage(chatId, `⚠️ User ${targetUserId} bukan owner!`);
+        }
+        if (data.length === 1) {
+            return bot.sendMessage(chatId, '❌ Tidak bisa hapus owner terakhir!');
+        }
+        data = data.filter(id => id !== targetUserId);
+    } else {
+        // Format baru (object)
+        if (!data.owners) data.owners = [];
+        if (!data.owners.includes(targetUserId)) {
+            return bot.sendMessage(chatId, `⚠️ User ${targetUserId} bukan owner!`);
+        }
+        if (data.owners.length === 1) {
+            return bot.sendMessage(chatId, '❌ Tidak bisa hapus owner terakhir!');
+        }
+        data.owners = data.owners.filter(id => id !== targetUserId);
+    }
+    
+    fs.writeFileSync(adminfile, JSON.stringify(data, null, 2));
     bot.sendMessage(chatId, `✅ User ${targetUserId} berhasil dihapus dari owner!`);
 });
+
 
 //▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰//
 //          OWNERMENU          //
@@ -4074,9 +4114,7 @@ Dibuat oleh: ${msg.from.first_name || msg.from.username}
         });
     }
 });
-
 //▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰//
-
 //          CLOSE CREATE PANEL         //// 
 
 
