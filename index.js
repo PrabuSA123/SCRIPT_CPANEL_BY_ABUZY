@@ -1222,7 +1222,7 @@ bot.onText(/^\/1gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -1507,7 +1507,7 @@ bot.onText(/^\/2gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -1792,7 +1792,7 @@ bot.onText(/^\/3gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -2077,7 +2077,7 @@ bot.onText(/^\/4gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -2362,7 +2362,7 @@ bot.onText(/^\/5gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -2647,7 +2647,7 @@ bot.onText(/^\/6gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -2932,7 +2932,7 @@ bot.onText(/^\/7gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -3217,7 +3217,7 @@ bot.onText(/^\/8gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -3502,7 +3502,7 @@ bot.onText(/^\/9gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -3786,7 +3786,7 @@ bot.onText(/^\/10gb(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
@@ -4072,7 +4072,7 @@ bot.onText(/^\/unli(?:\s+(.+))?$/, async (msg, match) => {
             user: userIdPanel,
             egg: egg,
             docker_image: 'ghcr.io/parkervcp/yolks:nodejs_18',
-            startup: 'npm start',
+            startup: 'if [[ -d .git ]] && [[ {{AUTO_UPDATE}} == "1" ]]; then git pull; fi; if [[ ! -z ${NODE_PACKAGES} ]]; then /usr/local/bin/npm install ${NODE_PACKAGES}; fi; if [[ ! -z ${UNNODE_PACKAGES} ]]; then /usr/local/bin/npm uninstall ${UNNODE_PACKAGES}; fi; if [ -f /home/container/package.json ]; then /usr/local/bin/npm install; fi;  if [[ ! -z ${CUSTOM_ENVIRONMENT_VARIABLES} ]]; then      vars=$(echo ${CUSTOM_ENVIRONMENT_VARIABLES} | tr ";" "\n");      for line in $vars;     do export $line;     done fi;  /usr/local/bin/${CMD_RUN};',
             environment: environment,
             limits: {
                 memory: memory,
