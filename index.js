@@ -17,6 +17,9 @@
 const TelegramBot = require('node-telegram-bot-api');
 const axios = require('axios');
 const fs = require('fs');
+const os = require('os');
+const chalk = require('chalk');
+const figlet = require('figlet');
 const FormData = require('form-data');
 const path = require('path');
 const settings = require('./settings');
@@ -28,29 +31,96 @@ const domain = settings.domainpanel;
 const plta = settings.plta;
 const pltc = settings.pltc;
 
+// TAMBAHIN INI! (baris 20)
+const bot = new TelegramBot(botToken, { polling: true });
+
 try {
     premiumUsers = JSON.parse(fs.readFileSync(premiumUsersFile));
 } catch (error) {
     console.error('Error reading premiumUsers file:', error);
 }
-const bot = new TelegramBot(botToken, { polling: true });
-bot.on('polling_error', (err) => {
-    console.log("[AbuZy Creative]: Waduh gagal konek bre lu ubah kode nya ya?");
-    console.error(err);
-});
 
-bot.getMe()
-    .then(() => {
-        console.log("[AbuZy Creative]: Bot Dah Aktif Bro sung gaasss");
-    })
-    .catch(() => {
-        console.log("[AbuZy Creative]: Waduh gagal konek bre lu ubah kode nya ya?");
+// ====================
+// STARTUP DISPLAY
+// ====================
+const TERMINAL_WIDTH = process.stdout.columns || 45;
+const horizontalLine = (length = TERMINAL_WIDTH, char = "=") => char.repeat(length);
+let cachedIP = null;
+
+const getPublicIP = async () => {
+    if (cachedIP) return cachedIP;
+    const ipServices = ["https://api.ipify.org?format=json", "https://ipv4.icanhazip.com", "https://ifconfig.me/ip"];
+    for (const url of ipServices) {
+        try {
+            const response = await axios.get(url, { timeout: 5000 });
+            let ip = response.data?.ip || (typeof response.data === "string" ? response.data.trim() : null);
+            if (ip) { cachedIP = ip; return cachedIP; }
+        } catch (error) { continue; }
+    }
+    return "Unable to fetch";
+};
+
+const getServerSpecs = async () => {
+    const totalMem = (os.totalmem() / 1024 ** 3).toFixed(2);
+    const freeMem = (os.freemem() / 1024 ** 3).toFixed(2);
+    const usedMem = (totalMem - freeMem).toFixed(2);
+    const uptime = os.uptime();
+    const days = Math.floor(uptime / 86400);
+    const hours = Math.floor((uptime % 86400) / 3600);
+    const minutes = Math.floor((uptime % 3600) / 60);
+    return {
+        totalMemory: `${totalMem} GB`,
+        usedMemory: `${usedMem} GB`,
+        uptime: `${days}d ${hours}h ${minutes}m`,
+        publicIp: await getPublicIP(),
+    };
+};
+
+async function showBotInfo() {
+    const specs = await getServerSpecs();
+    console.log(`\n${chalk.cyan(horizontalLine(TERMINAL_WIDTH, "="))}`);
+    try {
+        console.log(chalk.cyan(figlet.textSync("BOT ABU", { horizontalLayout: "default", width: 50 })));
+    } catch (error) {
+        console.log(chalk.cyan.bold("\n    BOT ABU\n"));
+    }
+    console.log(chalk.cyan(horizontalLine(TERMINAL_WIDTH, "=")));
+    console.log(`\n${chalk.yellow.bold("◧ Bot Information:")}`);
+    console.log(`${chalk.green("Version      :")} 2.0`);
+    console.log(`${chalk.green("Author       :")} AbuZy Creative`);
+    console.log(`${chalk.green("GitHub       :")} github.com/PrabuSA123`);
+    console.log(`${chalk.green("Telegram     :")} t.me/abuzycreative`);
+    console.log(`${chalk.green("Memory       :")} ${specs.usedMemory} / ${specs.totalMemory}`);
+    console.log(`${chalk.green("Uptime       :")} ${specs.uptime}`);
+    console.log(`${chalk.green("Public IP    :")} ${specs.publicIp}`);
+    console.log(`\n${chalk.cyan(horizontalLine(TERMINAL_WIDTH, "="))}`);
+    console.log(chalk.cyan.bold("    ◧ Bot is running successfully! ◧"));
+    console.log(`${chalk.cyan(horizontalLine(TERMINAL_WIDTH, "="))}\n`);
+}
+
+(async () => {
+    await showBotInfo();
+    
+    bot.on('polling_error', (err) => {
+        console.log(chalk.red("[AbuZy Creative]: Waduh gagal konek bre lu ubah kode nya ya?"));
+        console.error(err);
     });
+
+    bot.getMe()
+        .then(() => {
+            console.log(chalk.green("[AbuZy Creative]: Bot Dah Aktif Bro sung gaasss"));
+        })
+        .catch(() => {
+            console.log(chalk.red("[AbuZy Creative]: Waduh gagal konek bre lu ubah kode nya ya?"));
+        });
+})();
+
 try {
     adminUsers = JSON.parse(fs.readFileSync(adminfile));
 } catch (error) {
     console.error('Error reading adminUsers file:', error);
 }
+
 function getRunDuration(startTime) {
     const uptime = process.uptime();
     const hours = Math.floor(uptime / 3600);
@@ -58,11 +128,11 @@ function getRunDuration(startTime) {
     const seconds = Math.floor(uptime % 60);
     return `${hours} Jam ${minutes} Menit ${seconds} Detik`;
 }
+
 const nama = 'AbuZy Creative';
 const author = 'AbuZy Creative';
-const versi = '1.0.';
+const versi = '2.0.';
 
-//Informasi Waktu Mulai
 const startTime = Date.now();
 //▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰//
 //          STARTBOT         //
